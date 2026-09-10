@@ -5,7 +5,7 @@ export type AppConfig = {
 };
 
 function parsePort(value: string | undefined): number {
-  const port = Number(value ?? 3000);
+  const port = Number(value);
 
   if (!Number.isInteger(port) || port < 1 || port > 65_535) {
     throw new Error("PORT must be an integer between 1 and 65535");
@@ -17,7 +17,7 @@ function parsePort(value: string | undefined): number {
 export function getConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   return {
     host: env.HOST ?? "0.0.0.0",
-    port: parsePort(env.PORT),
+    port: env.PORT ? parsePort(env.PORT): 3000,
     clientOrigin: env.CLIENT_ORIGIN ?? "*"
   };
 }
