@@ -1,0 +1,17 @@
+import { serve } from "@hono/node-server";
+import { createApp } from "./app.js";
+import { getConfig } from "./config.js";
+
+const config = getConfig();
+const app = createApp(config);
+
+serve(
+  {
+    fetch: app.fetch,
+    hostname: config.host,
+    port: config.port
+  },
+  (info) => {
+    console.log(`API listening on http://${info.address}:${info.port}`);
+  }
+);
